@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<link th:href="@{/css/calendar-delete.css}" type="text/css" rel="stylesheet"/>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="border_check">선택</q></div>
+<div class="border_num">번호</q></div>
+<div class="border_kinds">입/출금</div>
+<div class="border_date">날짜</div>
+<div class="border_content_title">내용</div>
+<div class="border_price_title">금액</div>
+
+<form method="post" th:action='@{/calendar/details/delete-check}'>
+<tr th:each="passBook : ${reservationPassBookListAll}">
+    <span th:if="${passBook.price > 0}">
+        <div class="border_check"><input type="radio" name="num" th:value="${passBook.num}"></div>
+        <div class="border_num"><td th:text="${passBook.num}"></td></div>
+        <div class="border_kinds"><red_color><td th:text="${passBook.kinds}"></td></red_color></div>
+        <div class="border_date"><td th:text="|${passBook.year}-${passBook.month}-${passBook.day}|"></td></div>
+        <div class="border_content"><td th:text="${passBook.content}"></td></div>
+        <div class="border_price"><red_color><td th:text="${#numbers.formatInteger(passBook.price, 0, 'COMMA') + '원'}"></td></red_color></div>
+    </span>
+
+    <span th:unless="${passBook.price > 0}">
+        <div class="border_check"><input type="radio" name="num" th:value="${passBook.num}"> </div>
+        <div class="border_num"><td th:text="${passBook.num}"></td></div>
+        <div class="border_kinds"><blue_color><td th:text="${passBook.kinds}"></td></blue_color></div>
+        <div class="border_date"><td th:text="|${passBook.year}-${passBook.month}-${passBook.day}|"></td></div>
+        <div class="border_content"><td th:text="${passBook.content}"></td></div>
+        <div class="border_price"><blue_color><td th:text="${#numbers.formatInteger(passBook.price, 0, 'COMMA')+ '원'}"></td></blue_color></div>
+    </span>
+</tr>
+
+<div class="ui-button">
+    <input type="submit" value="삭제하기"></button>
+    <button type="button" th:onclick="|location.href='@{/calendar/details/delete(date = ${selectDay})}'|">취소</button>
+    <button type="button" th:onclick="|location.href='@{/main(date = ${param.date})}'|">메인가기</button>
+</div>
+    </form>
+</body>
+</html>
+

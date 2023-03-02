@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<link th:href="@{/css/calendar-main.css}" type="text/css" rel="stylesheet"/>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <span th:if="${session.isNotChoice == true}">
+	    <script type="text/javascript">
+            const text = "가계부를 선택 후 이용해주세요";
+            top.alert(text);
+            location.href = "/reset/isNotChoice"
+        </script>
+    </span>
+
+    <span th:if="${checkReservation == true}">
+        <script>
+                if (window.confirm("이번 달 새로운 구독이 있습니다. 확인하시겠습니까?")) {
+                    location.href = "/calendar/reservation?date=";
+                }
+        </script>
+    </span>
+
+    <script>
+        function sm() {
+            document.frm.submit();
+        }
+    </script>
+</head>
+<body>
+
+<form action="/main">
+    <input type="date" id="start" name="date"
+           th:value="${param.date}"
+           min="2010-01-01" max="2050-12-01">
+    <input type="submit" value="전송">
+</form>
+
+<div class="passbook_kinds">
+    <form name="frm" , action="/choice">
+        <select name="choiceKindsNum" id="choiceKindsNum" onchange="sm()">
+            <option value="">가계부를 선택해주세요.</option>
+            <span th:each="list : ${PassBookKindsList}">
+                <option th:value="${list.num}"><td th:text="${list.name}"></td></option>
+            </span>
+        </select>
+    </form>
+
+    <button type="button" th:onclick="|location.href='@{/pbkinds/add}'|">추가</button>
+    <button type="button" th:onclick="|location.href='@{/pbkinds/join}'|">가입</button>
+    <button type="button" th:onclick="|location.href='@{/pbkinds/token}'|">토큰확인</button>
+    <button type="button" th:onclick="|location.href='@{/pbkinds/delete}'|">삭제</button>
+</div>
+
+
+<div class="my_page">
+    <button type="button" th:onclick="|location.href='@{/my-page}'|">마이페이지</button>
+    <button type="button" th:onclick="|location.href='@{/logout}'|">로그아웃</button>
+    <button type="button" th:onclick="|location.href='@{/calendar/reservation/all}'|">예약 전체 보기</button>
+</div>
+
+<h2></h2>
+<div class="float_clear">
+</div>
+<tr th:each="calendar : ${#numbers.sequence(1,calendarDto.dayOfWeek -1)}">
+
+    <span th:if="${calendarDto.dayOfWeek != 1}">
+        <div class="border_float">
+        </div>
+    </span>
+</tr>
+<day th:each="day : ${#numbers.sequence(1,calendarDto.maxDay -1)}">
+    <span th:if="${(day + calendarDto.dayOfWeek -1) % 7 != 1}">
+        <div class="border_float"
+             th:onclick="|location.href='@{/calendar/details(date=${calendarDto.sumYearAndMonth}+'-'+${day})}'|">
+            <span th:text="${day}"></span>
+                <tr th:each="passBook : ${totalByDayList}">
+                    <span th:if="${day == passBook.day}">
+                    <br>
+                        <span th:if="${passBook.price > 0}">
+                            <right_float>사용 금액 : <br><red_color><td
+                                    th:text="${#numbers.formatInteger(passBook.price, 0, 'COMMA')+ '원'}"></red_color>
+                                </td></right_float>
+                        </span>
+                        <span th:unless="${passBook.price > 0}">
+                            <right_float>사용 금액 : <br><blue_color><td
+                                    th:text="${#numbers.formatInteger(passBook.price, 0, 'COMMA')+ '원'}"></blue_color>
+                                </td></right_float>
+                        </span>
+                    </span>
+                </tr>
+        </div>
+    </span>
+
+    <span th:unless="${(day + calendarDto.dayOfWeek -1) % 7 != 1}">
+        <div class="border_clear"
+             th:onclick="|location.href='@{/calendar/details(date=${calendarDto.sumYearAndMonth}+'-'+${day})}'|">
+            <week_end_color><span th:text="${day}"></span></week_end_color>
+                <tr th:each="passBook : ${totalByDayList}">
+                    <span th:if="${day == passBook.day}">
+                        <br>
+                        <span th:if="${passBook.price > 0}">
+                            <right_float>사용 금액 : <br><red_color><td
+                                    th:text="${#numbers.formatInteger(passBook.price, 0, 'COMMA')+ '원'}"></red_color>
+                                </td></right_float>
+                        </span>
+                        <span th:unless="${passBook.price > 0}">
+                            <right_float>사용 금액 : <br><blue_color><td
+                                    th:text="${#numbers.formatInteger(passBook.price, 0, 'COMMA')+ '원'}"></blue_color>
+                                </td></right_float>
+                        </span>
+                    </span>
+                </tr>
+        </div>
+    </span>
+</day>
+
+<div class="border_float_right">
+    <div th:replace="thymeleaf/ledger/main_page/calendar-main-sidepage :: footer"></div>
+</div>
+
+</body>
+</html>

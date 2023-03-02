@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<link th:href="@{/css/info-revise.css}" type="text/css" rel="stylesheet"/>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form name="form" id="form" role="form" method="post"
+      th:action='@{/my-page/revise-check}'>
+    <div class="border_clear">아이디</div>
+    <div class="border">
+        <td th:text="${userInfo.id}"></td>
+    </div>
+    <div class="border_clear">이름</div>s
+    <div class="border">
+        <input type="text" class="form-control" name="name" id="name" th:placeholder="${userInfo.name}">
+    </div>
+    <div class="border_clear">나이</div>
+    <div class="border">
+        <input type="text" class="form-control" name="age" id="age" th:placeholder="${userInfo.age}">
+    </div>
+    <div class="border_clear">성별</div>
+    <div class="border">
+        <input type="text" class="form-control" name="sex" id="sex" th:placeholder="${userInfo.sex}">
+    </div>
+    <div class="border_clear">휴대폰번호</div>
+    <div class="border">
+        <input type="text" class="form-control" name="phone" id="phone" th:placeholder="${userInfo.phone}">
+    </div>
+    <div class="border_clear">취미</div>
+    <div class="border">
+        <input type="text" class="form-control" name="hobby" id="hobby" th:placeholder="${userInfo.hobby}">
+    </div>
+    <br>
+    <div class="reset">
+        <input type='submit' value='저장'>
+        <button type="button" th:onclick="|location.href='@{/main?date=}'|">메인페이지로</button>
+    </div>
+</form>
+</body>
+</html>

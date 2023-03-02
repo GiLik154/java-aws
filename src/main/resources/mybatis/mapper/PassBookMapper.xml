@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- DTD 선언 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.demo.mapper.PassBookMapper">
+    <!-- 데이터 삽입 -->
+    <insert id="add">
+        INSERT into USER_PASSBOOK_TB(USER, KINDS, PRICE, CONTENT, YEAR, MONTH, DAY, RESERVATION, pbKindsNum)
+            value (#{user}, #{kinds}, #{price}, #{content}, #{year}, #{month}, #{day}, #{reservation}, #{pbKindsNum});
+    </insert>
+
+    <insert id="addReservation">
+        INSERT into USER_PASSBOOK_TB(USER, KINDS, PRICE, CONTENT, YEAR, MONTH, DAY, RESERVATION, pbKindsNum)
+            value (#{user}, #{kinds}, #{price}, #{content}, #{year}, #{month}, #{day}, "일반", #{pbKindsNum});
+    </insert>
+
+    <select id="selectAllCount" resultType="int">
+        SELECT COUNT(*)
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND pbKindsNum = #{pbKindsNum}
+    </select>
+
+    <select id="selectAll" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT *
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND pbKindsNum = #{pbKindsNum}
+    </select>
+
+    <select id="selectDaily" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT *
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND MONTH = #{month} AND DAY = #{day} AND pbKindsNum = #{pbKindsNum}
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectMonthly" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT *
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND MONTH = #{month} AND pbKindsNum = #{pbKindsNum}
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectMonthlyByPrice" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT PRICE
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND MONTH = #{month} AND pbKindsNum = #{pbKindsNum}
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectYearly" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT *
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND pbKindsNum = #{pbKindsNum}
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectYearlyByPrice" resultType="list">
+        SELECT PRICE
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND pbKindsNum = #{pbKindsNum}
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectTotalByDayList" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT DAY, sum(PRICE) as PRICE
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId}
+          AND YEAR = #{year}
+          AND MONTH = #{month} AND pbKindsNum = #{pbKindsNum}
+          AND RESERVATION = "일반"
+        GROUP BY DAY
+    </select>
+
+    <select id="selectDepositForMonthly" resultType="long">
+        SELECT IFNULL(SUM(PRICE), 0)
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND MONTH = #{month} AND pbKindsNum = #{pbKindsNum}
+          AND KINDS = "입금"
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectDepositForYearly" resultType="long">
+        SELECT IFNULL(SUM(PRICE), 0)
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND pbKindsNum = #{pbKindsNum}
+          AND KINDS = "입금"
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectWithdrawalForMonthly" resultType="long">
+        SELECT IFNULL(SUM(PRICE), 0)
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND MONTH = #{month} AND pbKindsNum = #{pbKindsNum}
+          AND KINDS = "출금"
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectWithdrawalForYearly" resultType="long">
+        SELECT IFNULL(SUM(PRICE), 0)
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND pbKindsNum = #{pbKindsNum}
+          AND KINDS = "출금"
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectTotalByMonth" resultType="long">
+        SELECT IFNULL(SUM(PRICE), 0)
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND MONTH = #{month} AND pbKindsNum = #{pbKindsNum}
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectTotalByYear" resultType="long">
+        SELECT IFNULL(SUM(PRICE), 0)
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND pbKindsNum = #{pbKindsNum}
+          AND RESERVATION = "일반"
+    </select>
+
+    <select id="selectMaxDepositForMonth" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT Max(price) as price, content as content
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year} AND MONTH = #{month} AND pbKindsNum = #{pbKindsNum}
+          AND KINDS = "입금"
+          AND PRICE =
+              (SELECT max(PRICE)
+               from USER_PASSBOOK_TB
+               WHERE USER = #{userId} AND YEAR = #{year} AND MONTH = #{month} AND pbKindsNum = #{pbKindsNum}
+                 AND KINDS = "입금"
+                 AND RESERVATION = "일반")
+          AND RESERVATION = "일반"
+        GROUP BY CONTENT;
+    </select>
+
+    <select id="selectMaxDepositForYear" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT IFNULL(Max(price), 0) as price, IFNULL(content, '') as content
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year}
+          AND KINDS = "입금"
+          AND PRICE = (SELECT max(PRICE)
+                       from USER_PASSBOOK_TB
+                       WHERE USER = #{userId} AND YEAR = #{year}
+                         AND KINDS = "입금"
+                         AND RESERVATION = "일반"
+                         AND pbKindsNum = #{pbKindsNum})
+          AND RESERVATION = "일반"
+          AND pbKindsNum = #{pbKindsNum}
+        GROUP BY CONTENT;
+    </select>
+
+    <select id="selectMaxWithdrawalForMonth" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT IFNULL(Max(price), 0) as price, IFNULL(content, '') as content
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND year = #{year} AND month = #{month}
+          AND KINDS = "출금"
+          AND PRICE = (SELECT max(PRICE)
+                       from USER_PASSBOOK_TB
+                       WHERE USER = #{userId} AND YEAR = #{year} AND MONTH = #{month}
+                         AND KINDS = "출금"
+                         AND RESERVATION = "일반"
+                         AND pbKindsNum = #{pbKindsNum})
+          AND RESERVATION = "일반"
+          AND pbKindsNum = #{pbKindsNum}
+        GROUP BY CONTENT;
+    </select>
+
+    <select id="selectMaxWithdrawalForYear" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT IFNULL(Max(price), 0) as price, IFNULL(content, '') as content
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND YEAR = #{year}
+          AND KINDS = "출금"
+          AND PRICE = (SELECT max(PRICE)
+                       from USER_PASSBOOK_TB
+                       WHERE USER = #{userId} AND YEAR = #{year}
+                         AND KINDS = "출금"
+                         AND RESERVATION = "일반"
+                         AND pbKindsNum = #{pbKindsNum})
+          AND RESERVATION = "일반"
+          AND pbKindsNum = #{pbKindsNum}
+        GROUP BY CONTENT;
+    </select>
+
+    <delete id="delete">
+        DELETE
+        FROM USER_PASSBOOK_TB
+        WHERE NUM = #{num}
+          AND USER = #{userId}
+    </delete>
+
+    <select id="selectReservationAll" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT *
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId}
+          AND RESERVATION = "예약" AND pbKindsNum = #{pbKindsNum}
+    </select>
+
+    <select id="selectReservation" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT *
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId} AND MONTH = #{month}
+          AND RESERVATION = "예약" AND pbKindsNum = #{pbKindsNum}
+    </select>
+
+    <select id="selectEachReservationList" resultType="com.example.demo.domain.entity.passbook.domain.PassBook">
+        SELECT *
+        FROM USER_PASSBOOK_TB
+        WHERE USER = #{userId}
+          AND NUM = #{num}
+          AND RESERVATION = "예약" AND pbKindsNum = #{pbKindsNum}
+    </select>
+
+    <update id="updateReservation">
+        UPDATE USER_PASSBOOK_TB
+        SET MONTH = #{month}
+        WHERE USER = #{userId}
+          AND NUM = #{num}
+          AND RESERVATION = "예약"
+    </update>
+
+</mapper>

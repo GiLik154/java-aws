@@ -1,0 +1,14 @@
+<span th:if = "${isRevise == false}">
+    <script>
+      alert("수정 실패");
+      history.back();
+    </script>
+</span>
+
+
+<span th:unless = "${isRevise == false}">
+    <script>
+      alert("수정 성공");
+      location.href = "/my-page";
+    </script>
+</span>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<link th:href="@{/css/pbkinds-delete.css}" type="text/css" rel="stylesheet"/>
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h3>가계부 토큰 확인</h3>
+
+<div class="border_name">이름</q></div>
+<div class="border_user">가입자</div>
+<div class="border_token">토큰</div>
+
+<tr th:each="passBook : ${tokenList}">
+  <div class="border_name">
+    <td th:text="${passBook.name}"></td>
+  </div>
+  <div class="border_user">
+    <td th:text="${passBook.user}"></td>
+  </div>
+  <div class="border_token">
+    <td th:text="${passBook.token}"></td>
+  </div>
+</tr>
+
+<div class="ui-button">
+  <button type="button" th:onclick="|location.href='/main?date='|">목록으로
+  </button>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<link th:href="@{/css/calendar-main.css}" type="text/css" rel="stylesheet"/>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <span th:if="${session.pbKindsNum != 0}">
+	    <script type="text/javascript">
+            location.href = "/main"
+        </script>
+    </span>
+    <script>
+        function sm() {
+            document.frm.submit();
+        }
+    </script>
+
+    <div class="passbook_kinds">
+        <form name="frm">
+            <select name="choiceKindsNum" id="choiceKindsNum" onchange="sm()">
+                <option value="">가계부를 선택해주세요.</option>
+                <span th:each="list : ${PassBookKindsList}">
+                <option th:value="${list.num}"><td th:text="${list.name}"></td></option>
+            </span>
+            </select>
+        </form>
+
+        <button type="button" th:onclick="|location.href='@{/pbkinds/add}'|">추가</button>
+        <button type="button" th:onclick="|location.href='@{/pbkinds/join}'|">가입</button>
+        <button type="button" th:onclick="|location.href='@{/pbkinds/token}'|">토큰확인</button>
+        <button type="button" th:onclick="|location.href='@{/pbkinds/delete}'|">삭제</button>
+    </div>
+
+</head>
+<body>
+</body>
+</html>

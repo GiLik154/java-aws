@@ -1,0 +1,73 @@
+.border_float {
+  border: 3px solid black;
+  width: 150px;
+  height: 150px;
+  float: left;
+}
+
+.border_clear {
+  border: 3px solid black;
+  width: 150px;
+  height: 150px;
+  clear: both;
+  float: left;
+}
+
+week_end_color {
+  color: red;
+  font-weight: bold;
+}
+
+right_float {
+  font-weight: bold;
+}
+
+red_color {
+  color: red;
+}
+
+blue_color {
+  color: blue;
+
+}
+
+.my_page{
+  background: gray;
+  border: 2px solid black;
+  width: 270px;
+  height: 30px;
+  float: left;
+  display : flex;
+  justify-content : center;
+  align-items : center;
+
+  margin-top: 1px;
+  margin-bottom: 1px;
+  margin-left: 815px;
+}
+
+.float_clear{
+  clear: both;
+}
+
+.border_float_right{
+  font-weight: bold;
+  position: absolute;
+  right: 10%;
+  border: 3px solid black;
+  width: 300px;
+  height: 600px;
+}
+
+.month_ledger{
+  padding: 20px 5px 5px;
+}
+
+.year_ledger{
+  padding: 15px 5px 5px;
+}
+
+
+.passbook_kinds{
+  display: table; margin-left: auto; margin-right: auto;
+}

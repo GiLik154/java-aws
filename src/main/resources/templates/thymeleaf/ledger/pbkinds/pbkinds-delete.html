@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<link th:href="@{/css/pbkinds-delete.css}" type="text/css" rel="stylesheet"/>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>아래 품목을 등록하시겠습니까?</h3>
+
+<div class="border_name">이름</q></div>
+<div class="border_user">가입자</div>
+<div class="border_token">토큰</div>
+
+
+<div class="border_name">
+    <td th:text="${pbKindsList.name}"></td>
+</div>
+<div class="border_user">
+        <td th:text="${pbKindsList.user}"></td>
+</div>
+<div class="border_token">
+    <td th:text="${pbKindsList.token}"></td>
+</div>
+
+<div class="ui-button">
+    <button type="button" th:onclick="|location.href='/main?date='|">목록으로
+    </button>
+    <button type="button" onclick="deleteCheck();">삭제하기</button>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function deleteCheck() {
+        const pbKindsNum = /*[[${param.pbKindsNum}]]*/;
+        if (window.confirm("삭제하시겠습니까?")) {
+            if (window.confirm("정말로 삭제하시겠습니까?")) {
+                alert("예약을 취소하였습니다.")
+                location.href = "/pbkinds/add/check";
+            } else {
+                alert("메인 화면으로 돌아갑니다.")
+                location.href = "/main?date="
+            }
+        } else {
+            alert("메인 화면으로 돌아갑니다.")
+            location.href = "/main?date="
+        }
+    }
+
+    /*]]>*/
+</script>
+</body>
+</html>

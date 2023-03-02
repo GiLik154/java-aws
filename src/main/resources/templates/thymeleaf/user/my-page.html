@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<link th:href="@{/css/mypage.css}" type="text/css" rel="stylesheet"/>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="border_clear">아이디</div>
+<div class="border">
+    <td th:text="${userInfo.id}"></td>
+</div>
+<div class="border_clear">아이디</div>
+<div class="border"><td th:text = "${userInfo.id}"></td></div>
+<div class="border_clear">이름</div>
+<div class="border"><td th:text = "${userInfo.name}"></td></div>
+<div class="border_clear">나이</div>
+<div class="border"><td th:text = "${userInfo.age}"></td></div>
+<div class="border_clear">성별</div>
+<div class="border"><td th:text = "${userInfo.sex}"></td></div>
+<div class="border_clear">휴대폰번호</div>
+<div class="border"><td th:text = "${userInfo.phone}"></td></div>
+<div class="border_clear">취미</div>
+<div class="border"><td th:text = "${userInfo.hobby}"></td></div>
+<br>
+<div class="reset">
+    <button type="button" th:onclick="|location.href='@{/my-page/info-revise}'|">수정하기</button>
+    <button type="button" th:onclick="|location.href='@{/main?date=}'|">메인페이지로</button>
+</div>
+</body>
+</html>

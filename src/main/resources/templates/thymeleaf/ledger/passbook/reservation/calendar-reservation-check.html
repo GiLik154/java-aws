@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<link th:href="@{/css/calendar-details.css}" type="text/css" rel="stylesheet"/>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>아래 품목을 등록하시겠습니까?</h3>
+
+<div class="border_num">번호</q></div>
+<div class="border_kinds">입/출금</div>
+<div class="border_date">날짜</div>
+<div class="border_content_title">내용</div>
+<div class="border_price_title">금액</div>
+
+
+    <span th:if="${reservationPassBookEach.price > 0}">
+        <div class="border_num"><td th:text="${reservationPassBookEach.num}"></td></div>
+        <div class="border_kinds"><red_color><td th:text="${reservationPassBookEach.kinds}"></td></red_color></div>
+        <div class="border_date"><td th:text="|${reservationPassBookEach.year}-${reservationPassBookEach.month}-${reservationPassBookEach.day}|"></td></div>
+        <div class="border_content"><td th:text="${reservationPassBookEach.content}"></td></div>
+        <div class="border_price"><red_color><td th:text="${#numbers.formatInteger(reservationPassBookEach.price, 0, 'COMMA') + '원'}"></td></red_color></div>
+    </span>
+
+    <span th:unless="${reservationPassBookEach.price > 0}">
+        <div class="border_num"><td th:text="${reservationPassBookEach.num}"></td></div>
+        <div class="border_kinds"><blue_color><td th:text="${reservationPassBookEach.kinds}"></td></blue_color></div>
+        <div class="border_date"><td th:text="|${reservationPassBookEach.year}-${reservationPassBookEach.month}-${reservationPassBookEach.day}|"></td></div>
+        <div class="border_content"><td th:text="${reservationPassBookEach.content}"></td></div>
+        <div class="border_price"><blue_color><td th:text="${#numbers.formatInteger(reservationPassBookEach.price, 0, 'COMMA')+ '원'}"></td></blue_color></div>
+    </span>
+
+<div class="ui-button">
+    <button type="button" th:onclick="|location.href='@{/calendar/reservation/register(num = ${param.num})}'|">등록하기</button>
+    <button type="button" onclick="deleteCheck();">취소하기</button>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    function deleteCheck() {
+        const num = /*[[${param.num}]]*/;
+        if (window.confirm("예약을 취소하시겠습니까?")) {
+            if (window.confirm("정말로 취소하시겠습니까?")) {
+                alert("예약을 취소하였습니다.")
+                location.href = "/calendar/reservation/delete/check?num=" + num;
+            } else {
+                alert("메인 화면으로 돌아갑니다.")
+                location.href = "/main?date="
+            }
+        } else {
+            if (window.confirm("이번달만 연기하시겠습니까?")) {
+                alert("이번달만 연기하였습니다.")
+                location.href = "/calendar/reservation/shelve?num=" + num;
+            } else {
+                alert("메인 화면으로 돌아갑니다.")
+                location.href = "/main?date="
+            }
+        }
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

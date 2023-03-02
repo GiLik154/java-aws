@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="footer" class="footer">
+
+    <div class="month_ledger" th:onclick="|location.href='@{/calendar/details/month(date=${param.date})}'|">
+        <div>
+            한달 총 입금:
+            <red_color>
+                <td th:text="${#numbers.formatInteger(monthlyPassBookDto.getDepositForMonthly(),0, 'COMMA') + '원'}"></td>
+            </red_color>
+        </div>
+        <div>
+            한달 총 출금:
+            <blue_color>
+                <td th:text="${#numbers.formatInteger(monthlyPassBookDto.getWithdrawalForMonthly(),0, 'COMMA') + '원'}"></td>
+            </blue_color>
+        </div>
+        <div>
+            <span th:if="${totalPassBookDto.getTotalByMonth()>0}">
+                한달 총 금액: <red_color><td
+                    th:text="${#numbers.formatInteger(totalPassBookDto.getTotalByMonth(),0, 'COMMA') + '원'}"></td></red_color>
+            </span>
+            <span th:unless="${totalPassBookDto.getTotalByMonth()>0}">
+                한달 총 금액: <blue_color><td
+                    th:text="${#numbers.formatInteger(totalPassBookDto.getTotalByMonth(),0, 'COMMA') + '원'}"></td></blue_color>
+            </span>
+        </div>
+        <br>
+
+        <div>
+            한달 최대 입금 :
+            <red_color>
+                <td th:text="${#numbers.formatInteger(monthlyPassBookDto.getMaxDepositForMonth.get(0).price,0, 'COMMA') + '원'}"></td>
+            </red_color>
+            <br>
+            한달 최대 입금 내용 : <br>
+            <td th:text="${monthlyPassBookDto.getMaxDepositForMonth.get(0).content}"></td>
+        </div>
+
+        <br>
+        <div>
+            한달 최대 출금 :
+            <blue_color>
+                <td th:text="${#numbers.formatInteger(monthlyPassBookDto.getMaxWithdrawalForMonth.get(0).price,0, 'COMMA') + '원'}"></td>
+            </blue_color>
+            <br>
+            한달 최대 출금 내용 : <br>
+            <td th:text="${monthlyPassBookDto.getMaxWithdrawalForMonth.get(0).content}"></td>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="year_ledger" th:onclick="|location.href='@{/calendar/details/year(date=${param.date})}'|">
+        <div>
+            일년 총 입금:
+            <red_color>
+                <td th:text="${#numbers.formatInteger(yearlyPassBookDto.getDepositForYearly(),0, 'COMMA') + '원'}"></td>
+            </red_color>
+        </div>
+        <div>
+            일년 총 출금:
+            <blue_color>
+                <td th:text="${#numbers.formatInteger(yearlyPassBookDto.getWithdrawalForYearly(),0, 'COMMA') + '원'}"></td>
+            </blue_color>
+        </div>
+        <div>
+            <span th:if="${totalPassBookDto.getTotalByYear()>0}">
+                일년 총 금액: <red_color><td
+                    th:text="${#numbers.formatInteger(totalPassBookDto.getTotalByYear(),0, 'COMMA') + '원'}"></td></red_color>
+            </span>
+            <span th:unless="${totalPassBookDto.getTotalByYear()>0}">
+                일년 총 금액: <blue_color><td
+                    th:text="${#numbers.formatInteger(totalPassBookDto.getTotalByYear(),0, 'COMMA') + '원'}"></td></blue_color>
+            </span>
+        </div>
+    <br>
+        <div>
+            일년 최대 입금 :
+            <red_color>
+                <td th:text="${#numbers.formatInteger(yearlyPassBookDto.getMaxDepositForYear.get(0).price,0, 'COMMA') + '원'}"></td>
+            </red_color>
+            <br>
+            일년 최대 입금 내용 : <br>
+            <td th:text="${yearlyPassBookDto.getMaxDepositForYear.get(0).content}"></td>
+        </div>
+
+
+        <br>
+        <div>
+            일년 최대 출금 :
+            <blue_color>
+                <td th:text="${#numbers.formatInteger(yearlyPassBookDto.getMaxWithdrawalForYear.get(0).price,0, 'COMMA') + '원'}"></td>
+            </blue_color>
+            <br>
+            일년 최대 출금 내용 : <br>
+            <td th:text="${yearlyPassBookDto.getMaxWithdrawalForYear.get(0).content}"></td>
+        </div>
+
+
+    </div>
+
+
+</div>
+</body>
+</html>

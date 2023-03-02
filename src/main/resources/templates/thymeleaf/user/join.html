@@ -1,0 +1,42 @@
+<head>
+  <script defer th:src='@{/js/join.js}'></script>
+  <link th:href="@{/css/join.css}" type="text/css" rel="stylesheet" />
+</head>
+
+
+<div class="container right-panel-active">
+  <!-- Sign In -->
+  <div class="container__form container--signin">
+    <form action="login/check" class="form" method="post">
+      <h2 class="form__title">Sign In</h2>
+      <input type="id" placeholder="id" class="input" name=id required />
+      <input type="password" placeholder="Password" class="input" name=pw required />
+      <a href="#" class="link">Forgot your password?</a>
+      <button class="btn">Sign In</button>
+    </form>
+  </div>
+
+  <!-- Sign Up -->
+  <div class="container__form container--signup">
+    <form action="join/check" class="form" method="post">
+      <h2 class="form__title">Sign Up</h2>
+      <input type="text" placeholder="Name" class="input" name=name required />
+      <input type="text" placeholder="id" class="input" name=id required />
+      <input type="password" placeholder="Password" class="input" name=pw required />
+      <button class="btn">Sign Up</button>
+    </form>
+  </div>
+
+
+  <!-- Overlay -->
+  <div class="container__overlay">
+    <div class="overlay">
+      <div class="overlay__panel overlay--right">
+        <button class="btn" id="signUp">Sign Up</button>
+      </div>
+      <div class="overlay__panel overlay--left">
+        <button class="btn" id="signIn">Sign In</button>
+      </div>
+    </div>
+  </div>
+</div>

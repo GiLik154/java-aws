@@ -1,0 +1,14 @@
+<span th:if="${isShelve == false}">
+    <script>
+              alert("연기 실패");
+              location.href = "/main?date=";
+    </script>
+</span>
+
+
+<span th:unless="${isShelve == false}">
+    <script>
+              alert("연기 성공");
+              location.href = "/main?date=";
+    </script>
+</span>

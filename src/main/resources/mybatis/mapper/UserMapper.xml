@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- DTD 선언 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <!-- 데이터 삽입 -->
+    <insert id="add">
+        INSERT INTO USER(id, pw, name)
+        VALUES (#{id}, #{pw}, #{name})
+    </insert>
+
+    <select id="selectUser" resultType="int">
+        SELECT COUNT(*)
+        FROM USER
+        WHERE id = #{userId}
+    </select>
+
+    <select id="getId" resultType="int">
+        SELECT COUNT(*)
+        FROM USER
+        WHERE id = #{id}
+    </select>
+
+    <select id="getPw" resultType="string">
+        SELECT pw
+        FROM USER
+        WHERE id = #{id}
+    </select>
+
+    <select id="getInfo" resultType="com.example.demo.domain.entity.user.domain.User">
+        SELECT *
+        FROM USER
+        WHERE id = #{userId}
+    </select>
+
+    <update id="reviseInfo">
+        UPDATE USER
+        SET name = #{name},
+            age = #{age},
+            sex = #{sex},
+            phone = #{phone},
+            hobby = #{hobby}
+        WHERE id = #{id};
+    </update>
+</mapper>

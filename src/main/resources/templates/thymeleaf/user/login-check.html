@@ -1,0 +1,13 @@
+<span th:if="${isLogin == false}">
+    <script>
+        alert("로그인 실패");
+        history.back();
+    </script>
+</span>
+
+<span th:unless="${isLogin == false}">
+    <script>
+        alert("로그인 성공");
+        location.href = "/main?date=";
+    </script>
+</span>

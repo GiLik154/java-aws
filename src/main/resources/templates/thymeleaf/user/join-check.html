@@ -1,0 +1,14 @@
+<span th:if = "${isJoined == false}">
+    <script>
+      alert("회원가입 실패");
+      history.back();
+    </script>
+</span>
+
+
+<span th:unless = "${isJoined == false}">
+    <script>
+      alert("회원가입 성공");
+      location.href = "/login";
+    </script>
+</span>
