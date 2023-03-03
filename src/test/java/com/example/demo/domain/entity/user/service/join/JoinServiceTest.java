@@ -1,13 +1,15 @@
 package com.example.demo.domain.entity.user.service.join;
 
+import com.example.demo.domain.entity.user.domain.User;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.domain.entity.user.service.dto.JoinServiceDto;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -29,13 +31,17 @@ class JoinServiceTest {
 
         //when
         boolean result = joinService.add(joinServiceDto);
+        User user = userMapper.getInfo("test");
 
         //then
-        Assertions.assertThat(result).isTrue();
+        assertTrue(result);
+        assertEquals("test", user.getId());
+        assertNotEquals("test", user.getPw());
+        assertEquals("test", user.getName());
     }
 
     @Test
-    void 아이디_중복() {
+    void 회원가입_아이디_중복() {
         //given
         JoinServiceDto joinServiceDto = new JoinServiceDto("root", "test123", "test");
         joinService.add(joinServiceDto);
@@ -44,19 +50,6 @@ class JoinServiceTest {
         boolean result = joinService.add(joinServiceDto);
 
         //then
-        Assertions.assertThat(result).isFalse();
-    }
-
-    @Test
-    void 비밀번호_암호화() {
-        //given
-        JoinServiceDto joinServiceDto = new JoinServiceDto("test", "test123", "test");
-
-        //when
-        joinService.add(joinServiceDto);
-        String testPw = userMapper.getPw("test");
-
-        //then
-        Assertions.assertThat(testPw).isNotEqualTo("test123");
+        assertFalse(result);
     }
 }

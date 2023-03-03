@@ -3,12 +3,14 @@ package com.example.demo.domain.entity.user.service.mypage;
 import com.example.demo.domain.entity.user.domain.User;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.domain.entity.user.service.dto.ReviseServiceDto;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -22,6 +24,7 @@ class MyPageServiceTest {
         this.myPageService = myPageService;
         this.userMapper = userMapper;
     }
+
     @Test
     void 정보_가져오기() {
         //given
@@ -34,8 +37,8 @@ class MyPageServiceTest {
         User testUser = myPageService.getInfo("test");
 
         //then
-        Assertions.assertThat(testUser.getId()).isEqualTo("test");
-        Assertions.assertThat(testUser.getSex()).isEqualTo("man");
+        assertThat(testUser.getId()).isEqualTo("test");
+        assertThat(testUser.getSex()).isEqualTo("man");
     }
 
     @Test
@@ -50,7 +53,7 @@ class MyPageServiceTest {
         User testUser = myPageService.getInfo("test1");
 
         //then
-        Assertions.assertThat(testUser).isNull();
+        assertNull(testUser);
     }
 
     @Test
@@ -65,7 +68,7 @@ class MyPageServiceTest {
         User testUser = myPageService.getInfo("test");
 
         //then
-        Assertions.assertThat(testUser.getSex()).isNotEqualTo("woman");
+        assertNotEquals("woman", testUser.getSex());
     }
 
     @Test
@@ -80,13 +83,15 @@ class MyPageServiceTest {
         User testUser = userMapper.getInfo("test");
 
         //then
-        Assertions.assertThat(isGetInfo).isTrue();
-        Assertions.assertThat(testUser.getId()).isEqualTo("test");
-        Assertions.assertThat(testUser.getName()).isEqualTo(reviseServiceDto.getName());
-        Assertions.assertThat(testUser.getAge()).isEqualTo(reviseServiceDto.getAge());
-        Assertions.assertThat(testUser.getSex()).isEqualTo(reviseServiceDto.getSex());
-        Assertions.assertThat(testUser.getPhone()).isEqualTo(reviseServiceDto.getPhone());
-        Assertions.assertThat(testUser.getHobby()).isEqualTo(reviseServiceDto.getHobby());
+        assertTrue(isGetInfo);
+        assertEquals("test", testUser.getId());
+        assertEquals("이름", testUser.getName());
+        assertEquals(19, testUser.getAge());
+        assertEquals("man", testUser.getSex());
+        assertEquals("01000000000", testUser.getPhone());
+        assertEquals("fishing", testUser.getHobby());
+
+
     }
 
     @Test
@@ -102,6 +107,6 @@ class MyPageServiceTest {
         boolean isGetInfo = userMapper.reviseInfo(testUser) == 1;
 
         //then
-        Assertions.assertThat(isGetInfo).isFalse();
+        assertFalse(isGetInfo);
     }
 }

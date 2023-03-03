@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -31,7 +33,7 @@ class CancellingPassBookKindsServiceImplTest {
         boolean isCancelling = cancellingPassBookKindsService.cancelling("test123", pbKindsNum);
 
         //then
-        Assertions.assertThat(isCancelling).isTrue();
+        assertTrue(isCancelling);
         Assertions.assertThat(passBookKindsMapper.selectAllByPbKindsNum(pbKindsNum).getUser()).isEqualTo("test");
     }
 
@@ -45,7 +47,7 @@ class CancellingPassBookKindsServiceImplTest {
         boolean isCancelling = cancellingPassBookKindsService.cancelling("test888", pbKindsNum);
 
         //then
-        Assertions.assertThat(isCancelling).isFalse();
+        assertFalse(isCancelling);
         Assertions.assertThat(passBookKindsMapper.selectAllByPbKindsNum(pbKindsNum).getUser()).isEqualTo("test-test123");
     }
 
@@ -59,7 +61,7 @@ class CancellingPassBookKindsServiceImplTest {
         boolean isCancelling = cancellingPassBookKindsService.cancelling("test888", 1);
 
         //then
-        Assertions.assertThat(isCancelling).isFalse();
+        assertFalse(isCancelling);
         Assertions.assertThat(passBookKindsMapper.selectAllByPbKindsNum(pbKindsNum).getUser()).isEqualTo("test-test123");
     }
 }

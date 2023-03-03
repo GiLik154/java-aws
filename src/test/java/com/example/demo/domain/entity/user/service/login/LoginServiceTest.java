@@ -1,15 +1,16 @@
 package com.example.demo.domain.entity.user.service.login;
 
 import com.example.demo.domain.entity.user.domain.User;
-import com.example.demo.domain.entity.user.service.dto.JoinServiceDto;
 import com.example.demo.mapper.UserMapper;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional
@@ -33,12 +34,13 @@ class LoginServiceTest {
 
         //when
         boolean isLogin = loginService.isCompare("test", "test123");
+
         //then
-        Assertions.assertThat(isLogin).isTrue();
+        assertTrue(isLogin);
     }
 
     @Test
-    void 아이디_오류() {
+    void 로그인_아이디_오류() {
         //given
         User user = new User("test", byPasswordEncoder.encode("test123"), "test");
         userMapper.add(user);
@@ -47,11 +49,11 @@ class LoginServiceTest {
         boolean isLogin = loginService.isCompare("test1", "test123");
 
         //then
-        Assertions.assertThat(isLogin).isFalse();
+        assertFalse(isLogin);
     }
 
     @Test
-    void 비밀번호_오류() {
+    void 로그인_비밀번호_오류() {
         //given
         User user = new User("test", byPasswordEncoder.encode("test123"), "test");
         userMapper.add(user);
@@ -60,6 +62,6 @@ class LoginServiceTest {
         boolean isLogin = loginService.isCompare("test", "test1234");
 
         //then
-        Assertions.assertThat(isLogin).isFalse();
+        assertFalse(isLogin);
     }
 }

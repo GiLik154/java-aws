@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -31,7 +33,7 @@ class JoinUserPassBookKindsServiceImplTest {
         boolean isJoinUser = joinUserPassBookKindsService.join("test123", token);
 
         //then
-        Assertions.assertThat(isJoinUser).isTrue();
+        assertTrue(isJoinUser);
         Assertions.assertThat(passBookKindsMapper.selectAllByToken(token).getUser()).isEqualTo("test-test123");
     }
 
@@ -45,7 +47,7 @@ class JoinUserPassBookKindsServiceImplTest {
         boolean isJoinUser = joinUserPassBookKindsService.join("test", token);
 
         //then
-        Assertions.assertThat(isJoinUser).isFalse();
+        assertFalse(isJoinUser);
         Assertions.assertThat(passBookKindsMapper.selectAllByToken(token).getUser()).isNotEqualTo("test-test");
     }
 
@@ -59,7 +61,7 @@ class JoinUserPassBookKindsServiceImplTest {
         boolean isJoinUser = joinUserPassBookKindsService.join("test", "1234-5678-1234");
 
         //then
-        Assertions.assertThat(isJoinUser).isFalse();
+        assertFalse(isJoinUser);
         Assertions.assertThat(passBookKindsMapper.selectAllByToken(token).getUser()).isNotEqualTo("test-test");
     }
 }

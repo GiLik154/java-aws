@@ -1,6 +1,5 @@
 package com.example.demo.domain.entity.passbookkinds.service.delete;
 
-import com.example.demo.domain.entity.passbookkinds.service.add.AddPassBookKindsService;
 import com.example.demo.mapper.PassBookKindsMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional
@@ -32,7 +34,7 @@ class DeletePassBookKindsServiceImplTest {
         boolean isDelete = deletePassBookKindsService.delete("test", pbKindsNum);
 
         //then
-        Assertions.assertThat(isDelete).isTrue();
+        assertTrue(isDelete);
         Assertions.assertThat(passBookKindsMapper.selectAllByUserId("test")).isEmpty();
     }
 
@@ -46,7 +48,7 @@ class DeletePassBookKindsServiceImplTest {
         boolean isDelete = deletePassBookKindsService.delete("test123", pbKindsNum);
 
         //then
-        Assertions.assertThat(isDelete).isFalse();
+        assertFalse(isDelete);
         Assertions.assertThat(passBookKindsMapper.selectAllByUserId("test")).isNotEmpty();
     }
 
@@ -59,7 +61,7 @@ class DeletePassBookKindsServiceImplTest {
         boolean isDelete = deletePassBookKindsService.delete("test", 0);
 
         //then
-        Assertions.assertThat(isDelete).isFalse();
+        assertFalse(isDelete);
         Assertions.assertThat(passBookKindsMapper.selectAllByUserId("test")).isNotEmpty();
     }
 }
